@@ -1,12 +1,17 @@
 <template>
     <div class="dungeon">
+        <!-- Previous floor -->
         <div class="previousFloor">
-            <span :class="['floor', getPreviousFloorType()]" @click="moveBack()"></span>
+            <DungeonFloor :type="getPreviousFloorType()" :clickable="true" size="s200" @click="moveBack()" />
         </div>
+
+        <!-- Current floor -->
         <div class="currentFloor">
             <font-awesome-icon icon="fa-solid fa-up-long" />
-            <span :class="['floor', floors[currentFloor].type]"></span>
+            <DungeonFloor :type="floors[currentFloor].type" />
         </div>
+
+        <!-- Next floors -->
         <div :class="['nextFloors', floors[currentFloor].next && floors[currentFloor].next.length === 1 ? 'single' : '']">
             <span
                 class="nextFloor"
@@ -14,7 +19,7 @@
                 :key="keyIndex"
             >
                 <font-awesome-icon icon="fa-solid fa-down-long" />
-                <span :class="['floor', floors[floorIndex].type]" @click="moveToFloor(floorIndex)"></span>
+                <DungeonFloor :type="floors[floorIndex].type" :clickable="true" size="s120" @click="moveToFloor(floorIndex)"/>
             </span>
         </div>
     </div>
@@ -23,28 +28,12 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
+import generateMap from './mapGenerator.js';
+import DungeonFloor from './DungeonFloor.vue';
+
 const router = useRouter();
 
-const floors = [];
-floors[0] = {
-    type: 'cave',
-    next: [1, 2],
-    previous: -1
-}
-floors[1] = {
-    type: 'cave',
-    previous: 0
-}
-floors[2] = {
-    type: 'cave',
-    next: [3],
-    previous: 0
-}
-
-floors[3] = {
-    type: 'cave',
-    previous: 2
-}
+const floors = generateMap();
 
 const currentFloor = ref(0);
 
@@ -78,22 +67,6 @@ const getPreviousFloorType = () => {
     margin: 0 auto;
 }
 
-.floor {
-    display: block;
-    height: 50px;
-    border: 1px solid black;
-}
-
-.cave {
-    background-image: url('../../assets/cave-longshot.png');
-    background-size: 100% 100%;
-}
-
-.exit {
-    background-image: url('../../assets/sky.png');
-    background-size: 100% 100%;
-}
-
 .fa-down-long, .fa-up-long {
     font-size: 40px;
     color: #edd938;
@@ -107,28 +80,12 @@ const getPreviousFloorType = () => {
     align-items: center;
 }
 
-.previousFloor .floor {
-    width: 200px;
-    border: 4px solid white;
-}
-
-.previousFloor .floor:hover {
-    border: 4px solid yellow;
-    cursor: pointer;
-}
-
 /* current floor */
 .currentFloor {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
 }
-
-.currentFloor .floor {
-    width: 400px;
-    border: 4px solid blue;
-}
-
 
 /* next floors */
 .nextFloors {
@@ -144,16 +101,6 @@ const getPreviousFloorType = () => {
 .nextFloor {
     display: flex;
     flex-direction: column;
-}
-
-.nextFloor .floor {
-    width: 120px;
-    border: 4px solid white;
-}
-
-.nextFloor .floor:hover {
-    border: 4px solid yellow;
-    cursor: pointer;
 }
 
 </style>
