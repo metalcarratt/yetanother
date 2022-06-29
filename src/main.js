@@ -1,5 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+
+//routes
 import {createRouter, createWebHistory} from 'vue-router';
 
 import WorldMap from './components/explore/WorldMap.vue';
@@ -16,6 +18,15 @@ const router = createRouter({
     routes
 })
 
-const app = createApp(App);
+
+// font awesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faDownLong, faUpLong)
+
+const app = createApp(App)
+    .component('font-awesome-icon', FontAwesomeIcon);
 app.use(router);
 app.mount('#app')
