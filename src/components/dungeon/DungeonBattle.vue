@@ -1,26 +1,26 @@
 <template>
-    <div class="matte">
-        <div class="modal">
-            <h2>You have encountered a {{ props.monster }}</h2>
-            <div class="fields">
-                <div class="field monster">
-                    <img src="../../assets/fenrir_wolf.png" />
-                </div>
-                <div class="field hero">
-                    <img src="../../assets/hero.png" />
-                </div>
+    <ShowModal>
+        <h2>You have encountered a {{ props.monster }}</h2>
+        <div class="fields">
+            <div class="field monster">
+                <img src="../../assets/fenrir_wolf.png" />
             </div>
-            monster hp: {{ monster.hp }}
-            hero hp: {{ hero.hp }}
-            <div class="action-buttons">
-                <button @click="attack">Attack</button>
+            <div class="field hero">
+                <img src="../../assets/hero.png" />
             </div>
         </div>
-    </div>
+        monster hp: {{ monster.hp }}
+        hero hp: {{ hero.hp }}
+        <div class="action-buttons">
+            <SmallButton colour="red" @click="attack">Attack</SmallButton>
+        </div>
+    </ShowModal>
 </template>
 
 <script setup>
 import { defineProps, defineEmits, ref } from 'vue';
+import ShowModal from '../common/ShowModal.vue';
+import SmallButton from '../common/SmallButton.vue';
 
 const props = defineProps({
     monster: String
@@ -49,24 +49,6 @@ const attack = () => {
 </script>
 
 <style scoped>
-.matte {
-    width: 100%;
-    height: 100%;
-    background-color: #000a;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal {
-    width: 800px;
-    background-color: white;
-    padding: 20px;
-}
-
 h2 {
     text-align: center;
 }
@@ -96,17 +78,5 @@ h2 {
     flex-direction: column;
     align-items: flex-end;
     margin-right: 50px;
-}
-
-button {
-    font-size: 18px;
-    padding: 15px 40px;
-    background-color: #db3636;
-    border: 1px solid #4d0404;
-}
-
-button:hover {
-    cursor: pointer;
-    background-color: #db7878;
 }
 </style>

@@ -24,6 +24,7 @@
         </div>
     </div>
     <DungeonBattle v-show="inBattle" :monster="battleType" @battleOver="encounterOver" />
+    <TakeTreasure v-show="takingTreasure" :treasure="treasureType" @taken="treasureTaken" />
 </template>
 
 <script setup>
@@ -32,6 +33,7 @@ import { useRouter } from 'vue-router'
 import generateMap from './mapGenerator.js';
 import DungeonFloor from './DungeonFloor.vue';
 import DungeonBattle from './DungeonBattle.vue';
+import TakeTreasure from './TakeTreasure.vue';
 
 const router = useRouter();
 
@@ -40,12 +42,17 @@ const floors = generateMap();
 const currentFloor = ref(0);
 const inBattle = ref(false);
 const battleType = ref('');
+const takingTreasure = ref(false);
+const treasureType = ref('');
 
 const moveToFloor = (floorIndex) => {
     currentFloor.value = floorIndex;
     const floor = floors[currentFloor.value];
     if (floor.encounter && !floor.encounter.beaten) {
         encounter(floor.encounter.type);
+    }
+    if (floor.treasure && !floor.treasure.obtained) {
+        takeTreasure(floor.treasure.type);
     }
 }
 
@@ -76,6 +83,17 @@ const encounterOver = () => {
     inBattle.value = false;
     const floor = floors[currentFloor.value];
     floor.encounter.beaten = true;
+}
+
+const takeTreasure = (type) => {
+    treasureType.value = type;
+    takingTreasure.value = true;
+}
+
+const treasureTaken = () => {
+    takingTreasure.value = false;
+    const floor = floors[currentFloor.value];
+    floor.treasure.obtained = true;
 }
 
 </script>

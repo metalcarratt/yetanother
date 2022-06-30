@@ -23,7 +23,11 @@ const generateMap = function() {
 
     floors[3] = {
         type: CAVE,
-        previous: 2
+        previous: 2,
+        treasure: {
+            type: 'Spirit Stone',
+            obtained: false
+        }
     }
 
     return floors;
