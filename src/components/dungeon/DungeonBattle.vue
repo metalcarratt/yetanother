@@ -10,16 +10,42 @@
                     <img src="../../assets/hero.png" />
                 </div>
             </div>
+            monster hp: {{ monster.hp }}
+            hero hp: {{ hero.hp }}
+            <div class="action-buttons">
+                <button @click="attack">Attack</button>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits, ref } from 'vue';
 
 const props = defineProps({
     monster: String
 });
+
+const emit = defineEmits(['battleOver']);
+
+const monster = ref({
+    hp: 60,
+    attack: 10
+});
+
+const hero = ref({
+    hp: 40,
+    attack: 20
+});
+
+const attack = () => {
+    monster.value.hp -= hero.value.attack;
+    if (monster.value.hp <= 0) {
+        emit('battleOver');
+    }
+    hero.value.hp -= monster.value.attack;
+}
+
 </script>
 
 <style scoped>
@@ -38,6 +64,7 @@ const props = defineProps({
 .modal {
     width: 800px;
     background-color: white;
+    padding: 20px;
 }
 
 h2 {
@@ -56,9 +83,30 @@ h2 {
     margin: 20px;
     background-image: url('../../assets/cave-longshot.png');
     background-size: 100% 100%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .hero img {
     transform: scaleX(-1);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 50px;
+}
+
+button {
+    font-size: 18px;
+    padding: 15px 40px;
+    background-color: #db3636;
+    border: 1px solid #4d0404;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #db7878;
 }
 </style>

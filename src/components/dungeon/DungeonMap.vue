@@ -23,7 +23,7 @@
             </span>
         </div>
     </div>
-    <DungeonBattle v-show="inBattle" :monster="battleType" />
+    <DungeonBattle v-show="inBattle" :monster="battleType" @battleOver="encounterOver" />
 </template>
 
 <script setup>
@@ -70,6 +70,12 @@ const getPreviousFloorType = () => {
 const encounter = (type) => {
     battleType.value = type;
     inBattle.value = true;
+}
+
+const encounterOver = () => {
+    inBattle.value = false;
+    const floor = floors[currentFloor.value];
+    floor.encounter.beaten = true;
 }
 
 </script>
