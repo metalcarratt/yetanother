@@ -23,6 +23,7 @@
             </span>
         </div>
     </div>
+    <DungeonBattle v-show="inBattle" :monster="battleType" />
 </template>
 
 <script setup>
@@ -30,21 +31,28 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router'
 import generateMap from './mapGenerator.js';
 import DungeonFloor from './DungeonFloor.vue';
+import DungeonBattle from './DungeonBattle.vue';
 
 const router = useRouter();
 
 const floors = generateMap();
 
 const currentFloor = ref(0);
+const inBattle = ref(false);
+const battleType = ref('');
 
 const moveToFloor = (floorIndex) => {
     currentFloor.value = floorIndex;
+    const floor = floors[currentFloor.value];
+    if (floor.encounter && !floor.encounter.beaten) {
+        encounter(floor.encounter.type);
+    }
 }
 
 const moveBack = () => {
     const current = floors[currentFloor.value];
     if (current.previous != -1) {
-        currentFloor.value = current.previous;
+        moveToFloor(current.previous);
     } else {
         router.push('/world')
     }
@@ -57,6 +65,11 @@ const getPreviousFloorType = () => {
     } else {
         return 'exit';
     }
+}
+
+const encounter = (type) => {
+    battleType.value = type;
+    inBattle.value = true;
 }
 
 </script>

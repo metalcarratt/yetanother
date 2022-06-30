@@ -14,7 +14,11 @@ const generateMap = function() {
     floors[2] = {
         type: CAVE,
         next: [3],
-        previous: 0
+        previous: 0,
+        encounter: {
+            type: 'Wolf',
+            beaten: false
+        }
     }
 
     floors[3] = {
