@@ -1,5 +1,7 @@
 <template>
-    <span :class="classes()" @click="onClick()"></span>
+    <span :class="classes()" @click="onClick()">
+        <slot></slot>
+    </span>
 </template>
 
 <script setup>
@@ -33,10 +35,13 @@ const classes = () => {
 
 <style scoped>
 .floor {
-    display: block;
-    height: 50px;
+    display: flex;
+    height: 400px;
     border: 4px solid blue;
     width: 400px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .floor.clickable {
@@ -49,7 +54,7 @@ const classes = () => {
 }
 
 .cave {
-    background-image: url('../../assets/cave-longshot.png');
+    background-image: url('../../assets/cave_floor.jpg');
     background-size: 100% 100%;
 }
 
@@ -60,9 +65,11 @@ const classes = () => {
 
 .s120 {
     width: 120px;
+    height: 50px;
 }
 
 .s200 {
     width: 200px;
+    height: 50px;
 }
 </style>

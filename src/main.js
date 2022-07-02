@@ -26,7 +26,12 @@ import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faDownLong, faUpLong)
 
+// vuex
+import { store } from './store/inventory.js';
+
+
 const app = createApp(App)
     .component('font-awesome-icon', FontAwesomeIcon);
 app.use(router);
+app.use(store);
 app.mount('#app')

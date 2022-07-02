@@ -2,8 +2,13 @@
     <div class="buttons right">
         <button @click="$router.push('/dungeon')">Enter Dungeon</button>
         <button>Patrol</button>
+        <span>{{ inventory.getItems() }}</span>
     </div>
 </template>
+
+<script setup>
+import inventory from '../../store/inventory.js';
+</script>
 
 <style scoped>
 .buttons {

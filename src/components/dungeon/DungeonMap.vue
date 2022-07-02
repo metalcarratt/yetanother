@@ -8,7 +8,9 @@
         <!-- Current floor -->
         <div class="currentFloor">
             <font-awesome-icon icon="fa-solid fa-up-long" />
-            <DungeonFloor :type="floors[currentFloor].type" />
+            <DungeonFloor :type="floors[currentFloor].type">
+                <img src="../../assets/hero.png" class="hero" />
+            </DungeonFloor>
         </div>
 
         <!-- Next floors -->
@@ -19,12 +21,13 @@
                 :key="keyIndex"
             >
                 <font-awesome-icon icon="fa-solid fa-down-long" />
-                <DungeonFloor :type="floors[floorIndex].type" :clickable="true" size="s120" @click="moveToFloor(floorIndex)"/>
+                <DungeonFloor :type="floors[floorIndex].type" :clickable="true" size="s120" @click="moveToFloor(floorIndex)" />
             </span>
         </div>
     </div>
     <DungeonBattle v-show="inBattle" :monster="battleType" @battleOver="encounterOver" />
     <TakeTreasure v-show="takingTreasure" :treasure="treasureType" @taken="treasureTaken" />
+    <span>Inventory: {{ inventory.getItems() }}</span>
 </template>
 
 <script setup>
@@ -34,6 +37,7 @@ import generateMap from './mapGenerator.js';
 import DungeonFloor from './DungeonFloor.vue';
 import DungeonBattle from './DungeonBattle.vue';
 import TakeTreasure from './TakeTreasure.vue';
+import inventory from '../../store/inventory.js';
 
 const router = useRouter();
 
@@ -140,4 +144,8 @@ const treasureTaken = () => {
     flex-direction: column;
 }
 
+.hero {
+    width: 200px;
+    height: 158px;
+}
 </style>
