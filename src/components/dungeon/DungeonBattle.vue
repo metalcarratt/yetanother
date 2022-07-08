@@ -1,5 +1,5 @@
 <template>
-    <ShowModal>
+    <ShowModal v-if="modal.isShowingModal('DungeonBattle')">
         <h2>You have encountered a {{ props.monster }}</h2>
         <div class="fields">
             <div class="field monster">
@@ -19,8 +19,9 @@
 
 <script setup>
 import { defineProps, defineEmits, ref } from 'vue';
-import ShowModal from '../common/ShowModal.vue';
+import ShowModal from '../modal/ShowModal.vue';
 import SmallButton from '../common/SmallButton.vue';
+import modal from '../modal/modal';
 
 const props = defineProps({
     monster: String
@@ -41,7 +42,9 @@ const hero = ref({
 const attack = () => {
     monster.value.hp -= hero.value.attack;
     if (monster.value.hp <= 0) {
+        modal.close();
         emit('battleOver');
+        return;
     }
     hero.value.hp -= monster.value.attack;
 }

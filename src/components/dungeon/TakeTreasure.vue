@@ -1,5 +1,5 @@
 <template>
-    <ShowModal>
+    <ShowModal v-if="modal.isShowingModal('TakeTreasure')">
         <div class="layout">
             <h1>You found something...</h1>
             <img src="../../assets/sstone.jpg" />
@@ -10,10 +10,12 @@
 </template>
 
 <script setup>
-import ShowModal from '../common/ShowModal.vue';
+import ShowModal from '../modal/ShowModal.vue';
 import SmallButton from '../common/SmallButton.vue';
 import { defineProps, defineEmits } from 'vue';
-import inventory from '../../store/inventory.js';
+import inventory from '../inventory/inventory';
+import modal from '../modal/modal';
+import createSpiritStone from '../items/spiritStone';
 
 const props = defineProps({
     treasure: String
@@ -22,10 +24,9 @@ const props = defineProps({
 const emit = defineEmits(['taken']);
 
 const takeItem = () => {
-    inventory.addItem({
-        type: 'Spirit Stone'
-    })
+    inventory.addItem(createSpiritStone());
     emit('taken');
+    modal.close();
 }
 
 </script>

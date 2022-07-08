@@ -13,12 +13,15 @@
     </div>
     
     <RightButtons />
+    <ViewInventory />
+    <ViewItem />
 </template>
 
 <script setup>
-// import { ref } from 'vue';
 import WorldNode from './WorldNode.vue';
 import RightButtons from './RightButtons.vue';
+import ViewInventory from '../inventory/ViewInventory.vue';
+import ViewItem from '../inventory/ViewItem.vue';
 
 const Home = {
     class: 'mountain',

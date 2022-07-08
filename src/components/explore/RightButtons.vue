@@ -1,13 +1,15 @@
 <template>
     <div class="buttons right">
         <button @click="$router.push('/dungeon')">Enter Dungeon</button>
-        <button>Patrol</button>
-        <span>{{ inventory.getItems() }}</span>
+        <button @click="modal.showModal('ViewInventory')">Inventory</button>
+        <span>{{ skills.getSkills() }}</span>
     </div>
 </template>
 
 <script setup>
-import inventory from '../../store/inventory.js';
+import modal from '../modal/modal';
+import skills from '../experience/skills';
+
 </script>
 
 <style scoped>

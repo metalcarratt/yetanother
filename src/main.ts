@@ -27,7 +27,7 @@ import { faDownLong, faUpLong } from '@fortawesome/free-solid-svg-icons'
 library.add(faDownLong, faUpLong)
 
 // vuex
-import { store } from './store/inventory.js';
+import store from './store';
 
 
 const app = createApp(App)

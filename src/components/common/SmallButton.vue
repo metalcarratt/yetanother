@@ -42,4 +42,13 @@ button.red {
 button.red:hover {
     background-color: #db3636;
 }
+
+button.blue {
+    background-color: #b2b2f7;
+    border-color: #38397b;
+}
+
+button.blue:hover {
+    background-color: #dedefb;
+}
 </style>

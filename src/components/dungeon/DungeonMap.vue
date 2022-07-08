@@ -25,19 +25,20 @@
             </span>
         </div>
     </div>
-    <DungeonBattle v-show="inBattle" :monster="battleType" @battleOver="encounterOver" />
-    <TakeTreasure v-show="takingTreasure" :treasure="treasureType" @taken="treasureTaken" />
+    <DungeonBattle :monster="battleType" @battle-over="encounterOver"/>
+    <TakeTreasure :treasure="treasureType" @taken="treasureTaken" />
     <span>Inventory: {{ inventory.getItems() }}</span>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router'
-import generateMap from './mapGenerator.js';
+import generateMap from './mapGenerator';
 import DungeonFloor from './DungeonFloor.vue';
 import DungeonBattle from './DungeonBattle.vue';
 import TakeTreasure from './TakeTreasure.vue';
-import inventory from '../../store/inventory.js';
+import inventory from '../inventory/inventory';
+import modal from '../modal/modal';
 
 const router = useRouter();
 
@@ -46,7 +47,6 @@ const floors = generateMap();
 const currentFloor = ref(0);
 const inBattle = ref(false);
 const battleType = ref('');
-const takingTreasure = ref(false);
 const treasureType = ref('');
 
 const moveToFloor = (floorIndex) => {
@@ -81,21 +81,20 @@ const getPreviousFloorType = () => {
 const encounter = (type) => {
     battleType.value = type;
     inBattle.value = true;
+    modal.showModal('DungeonBattle');
 }
 
 const encounterOver = () => {
-    inBattle.value = false;
     const floor = floors[currentFloor.value];
     floor.encounter.beaten = true;
 }
 
 const takeTreasure = (type) => {
     treasureType.value = type;
-    takingTreasure.value = true;
+    modal.showModal('TakeTreasure');
 }
 
 const treasureTaken = () => {
-    takingTreasure.value = false;
     const floor = floors[currentFloor.value];
     floor.treasure.obtained = true;
 }
